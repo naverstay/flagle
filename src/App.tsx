@@ -49,11 +49,13 @@ function App() {
     // Get data from local storage
     const [storedGuesses, storeGuesses] = useLocalStorage<Guesses>("guesses", {
         day: today,
+        flipped: [],
         countries: [],
     });
 
     const [practiceStoredGuesses, practiceStoreGuesses] = useLocalStorage<Guesses>("practiceGuesses", {
         day: '',
+        flipped: [],
         countries: [],
     });
 

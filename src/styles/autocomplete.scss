@@ -66,6 +66,7 @@
     z-index: 1;
 
     .wrapper {
+      min-height: unset;
       background-color: $autocomplete-bg !important;
       border-color: $autocomplete-border !important;
       color: $autocomplete-result-text !important;
@@ -131,6 +132,7 @@
           margin-top: -10px;
           background-position: 50% 50%;
           background-repeat: no-repeat;
+          background-size: contain;
         }
       }
     }

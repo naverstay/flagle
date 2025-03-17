@@ -10,5 +10,6 @@ export type Stats = {
 
 export type Guesses = {
   day: string;
+  flipped: boolean[][];
   countries: string[];
 }

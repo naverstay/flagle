@@ -1,4 +1,3 @@
-import {isMobile} from "react-device-detect";
 import {answerName} from "../util/answer";
 import {FormattedMessage} from "../context/FormattedMessage";
 import {Country} from "../lib/country";
@@ -35,25 +34,6 @@ export function Message({win, error, guesses, practiceMode}: Props) {
         return (
             <p className="autocomplete-message">
                 <FormattedMessage id="Game3"/>
-            </p>
-        );
-    } else if (guesses === 1) {
-        return (
-            <p className="autocomplete-message __info">
-                <FormattedMessage
-                    id="Game4"
-                    values={{
-                        // @ts-ignore
-                        span: (chunks: string) => {
-                            try {
-                                const [click, tap] = JSON.parse(chunks);
-                                return isMobile ? <span>{tap}</span> : <span>{click}</span>;
-                            } catch (e) {
-                                return <span>{chunks}</span>;
-                            }
-                        },
-                    }}
-                />
             </p>
         );
     } else {

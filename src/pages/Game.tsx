@@ -10,10 +10,13 @@ import {FormattedMessage} from "../context/FormattedMessage";
 import {Message} from "../components/Message";
 import Share from "../components/Share";
 
-const Globe = lazy(() => import("../components/Globe"));
+const Flag = lazy(() => import("../components/Flag"));
 const Guesser = lazy(() => import("../components/Guesser"));
 const List = lazy(() => import("../components/List"));
 const countryData: Country[] = require("../data/country_data.json").features;
+
+const ROWS = 2;
+const COLS = 3;
 
 type Props = {
     showLoader: boolean;
@@ -114,6 +117,36 @@ export default function Game({
     const [win, setWin] = useState(alreadyWon);
     const globeRef = useRef<GlobeMethods>(null!);
 
+    const [flipped, setFlipped] = useState<boolean[][]>(
+        (practiceMode ? practiceStoredGuesses : storedGuesses)?.flipped.flat().some(s => !s) ? (practiceMode ? practiceStoredGuesses : storedGuesses)?.flipped : Array.from({length: ROWS}, () => Array(COLS).fill(true))
+    );
+
+    const handleFlip = (row: number, col: number) => {
+        setFlipped((prev) => {
+            const newState = prev.map((r) => [...r]);
+            newState[row][col] = !newState[row][col];
+            return newState;
+        });
+    };
+
+    const flipRandomCell = () => {
+        const unflippedCells: [number, number][] = [];
+
+        flipped.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell) {
+                    unflippedCells.push([rowIndex, colIndex]);
+                }
+            });
+        });
+
+        if (unflippedCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * unflippedCells.length);
+            const [row, col] = unflippedCells[randomIndex];
+            handleFlip(row, col);
+        }
+    };
+
     // Whenever there's a new guess
     useEffect(() => {
         if (!practiceMode) {
@@ -135,10 +168,11 @@ export default function Game({
 
             practiceStoreGuesses({
                 day: '',
+                flipped: flipped,
                 countries: guessNames,
             });
         }
-    }, [guesses, practiceStoreGuesses, practiceMode]);
+    }, [guesses, practiceStoreGuesses, practiceMode, flipped]);
 
     useEffect(() => {
         if (!practiceMode) {
@@ -146,13 +180,24 @@ export default function Game({
 
             storeGuesses({
                 day: today,
+                flipped: flipped,
                 countries: guessNames,
             });
         }
-    }, [guesses, storeGuesses, practiceMode]);
+    }, [guesses, storeGuesses, practiceMode, flipped]);
 
     // When the player wins!
     useEffect(() => {
+        if (win) {
+            flipped.forEach((row, rowIndex) => {
+                row.forEach((cell, colIndex) => {
+                    if (cell) {
+                        handleFlip(rowIndex, colIndex);
+                    }
+                });
+            });
+        }
+
         if (win && (!storedStats?.lastWin || storedStats.lastWin !== today) && !practiceMode) {
             // Store new stats in local storage
             const gamesPlayed = (storedStats.gamesPlayed || 0) + 1;
@@ -190,11 +235,12 @@ export default function Game({
 
             practiceStoreGuesses({
                 day: win ? 'win' : '',
+                flipped: flipped,
                 countries: guessNames,
             });
         }
 
-    }, [win, guesses, setShowStats, storeStats, storedStats, practiceMode, practiceStoreGuesses]);
+    }, [win, guesses, setShowStats, storeStats, storedStats, practiceMode, flipped, practiceStoreGuesses]);
 
     // Practice mode
 
@@ -210,6 +256,12 @@ export default function Game({
     return (
         <Suspense fallback={renderLoader()}>
             <div className="container">
+                <style dangerouslySetInnerHTML={{
+                    __html: `.grid {
+            grid-template-columns: repeat(${COLS}, 1fr);
+            grid-template-rows: repeat(${ROWS}, 1fr);
+        }`
+                }}/>
                 {win && !practiceMode ? <Share storedGuesses={storedGuesses}
                                                storeGuesses={storeGuesses}
                                                firstStats={firstStats}
@@ -219,11 +271,13 @@ export default function Game({
 
                 {!showLoader && (
                     <div className="globe-holder">
-                        <Globe
+                        <Flag
                             guesses={guesses}
                             globeRef={globeRef}
+                            setFlipped={setFlipped}
+                            flipped={flipped}
+                            win={win}
                             practiceMode={practiceMode}
-
                         />
 
                         <div className="globe-message">
@@ -238,6 +292,7 @@ export default function Game({
                         <Guesser
                             setError={setError}
                             guesses={guesses}
+                            updateFlag={flipRandomCell}
                             setGuesses={setGuesses}
                             win={win}
                             setWin={setWin}

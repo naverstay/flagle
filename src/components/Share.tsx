@@ -18,7 +18,7 @@ type Props = {
     storedGuesses: Guesses;
 };
 
-const GAME_LINK = 'https://globle.org/';
+const GAME_LINK = 'https://flagle.org';
 
 export default function Share({
                                   storeGuesses,
@@ -75,13 +75,13 @@ export default function Share({
     async function copyToClipboard() {
         const tries = storedGuesses.countries.length;
 
-        let shareString = (!practiceMode && tries > 0 ? `I guessed today’s Globle in ${tries} ${tries > 1 ? 'tries' : 'try'}:
+        let shareString = (!practiceMode && tries > 0 ? `I guessed today’s Flag in ${tries} ${tries > 1 ? 'tries' : 'try'}:
 ${emojiGuesses}🏆
-` : `I'm playing Globle `) + GAME_LINK;
+` : `I'm playing Flagle `) + GAME_LINK;
 
         if (fullStat) {
             shareString =
-                `My Globle Stats:
+                `My Flagle Stats:
 ${gamesWon} - ${localeList[locale]["Stats3"]}
 ${todaysGuesses} - ${localeList[locale]["Stats2"]}
 ${todaysGuesses} - ${avgShorthand}
@@ -94,7 +94,7 @@ ${GAME_LINK}`;
 
         try {
             if ("canShare" in navigator && isMobile && !isFirefox) {
-                await navigator.share({title: "Globle Stats", text: shareString});
+                await navigator.share({title: "Flagle Stats", text: shareString});
                 setMsg("Shared!");
                 setShowCopyMsg(true);
                 return setTimeout(() => setShowCopyMsg(false), 2000);

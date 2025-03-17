@@ -1,7 +1,6 @@
-import React, {FormEvent, useState, useRef, useEffect, useMemo} from "react";
+import React, {FormEvent, useEffect, useMemo, useRef, useState} from "react";
 import {Country} from "../lib/country";
 import {answerCountry, answerName} from "../util/answer";
-import {Message} from "./Message";
 import {polygonDirection, polygonDistance} from "../util/distance";
 import {ReactSearchAutocomplete} from 'react-search-autocomplete';
 import localeList from "../i18n/messages";
@@ -31,6 +30,7 @@ type Props = {
     win: boolean;
     setWin: React.Dispatch<React.SetStateAction<boolean>>;
     practiceMode: boolean;
+    updateFlag: () => void;
     setError: (err: string) => void;
 };
 
@@ -45,6 +45,7 @@ export default function Guesser({
                                     setWin,
                                     practiceMode,
                                     setError,
+                                    updateFlag,
                                 }: Props) {
     const [guessName, setGuessName] = useState("");
     const [guessFlag, setGuessFlag] = useState("");
@@ -54,7 +55,7 @@ export default function Guesser({
 
     const guessInputRef = useRef<HTMLInputElement>(null);
     const guessHolderRef = useRef<HTMLInputElement>(null);
-    const aotocompleteRef = useRef(null);
+    const autocompleteRef = useRef(null);
 
     const handleOnSelect = (item: AutocompleteItem) => {
         setGuessFlag(item.flag);
@@ -89,13 +90,21 @@ export default function Guesser({
     }, [guessInputRef]);
 
     const css = useMemo(() => {
-        const bg = guessFlag ? `url(${process.env.PUBLIC_URL}/images/flags/${guessFlag.toLowerCase()}.png)` : 'unset';
+        const bg = guessFlag ? `url(${process.env.PUBLIC_URL}/images/flags/${guessFlag.toLowerCase()}.svg)` : 'unset';
 
         return `.autocomplete-holder .wrapper > div:first-child::before {
             background-image: ${bg};
         }
     `;
     }, [guessFlag]);
+
+    const cssAnswer = useMemo(() => {
+        return `.flag-wrapper .grid .cell .front {
+            background-image: url(${process.env.PUBLIC_URL}/images/flags/${answerCountry.properties.FLAG.toLowerCase()}.svg);
+            background-repeat: no-repeat;
+        }
+    `;
+    }, [answerCountry]);
 
     function findCountry(countryName: string, list: Country[]) {
         return list.find((country) => {
@@ -170,6 +179,7 @@ export default function Guesser({
                 guessCountry["direction"] = polygonDirection(guessCountry, answerCountry);
                 setGuesses([guessCountry, ...guesses]);
                 setGuessName("");
+                updateFlag();
                 return;
             }
         }
@@ -177,6 +187,7 @@ export default function Guesser({
             guessCountry["proximity"] = polygonDistance(guessCountry, answerCountry);
             guessCountry["direction"] = polygonDirection(guessCountry, answerCountry);
             setGuesses([guessCountry, ...guesses]);
+            updateFlag();
             setGuessName("");
         }
 
@@ -211,7 +222,7 @@ export default function Guesser({
     }, []);
 
     useEffect(() => {
-        const el = aotocompleteRef.current;
+        const el = autocompleteRef.current;
         const observer = new IntersectionObserver(
             ([e]) => e.target.classList.toggle('__pinned', getScrollTop() > 0 && e.intersectionRatio < 1)
             ,
@@ -228,10 +239,11 @@ export default function Guesser({
     }, []);
 
     return (
-        <div ref={aotocompleteRef} className="autocomplete-wrapper">
+        <div ref={autocompleteRef} className="autocomplete-wrapper">
             <style>{css}</style>
+            <style>{cssAnswer}</style>
             {process.env.NODE_ENV === 'development' ? <p style={{display: 'none'}}>
-                {answerName}
+                {answerName},{answerCountry.properties.FLAG.toLowerCase()}
             </p> : null}
 
             <form className="autocomplete-form" onSubmit={addGuess}>
@@ -248,7 +260,7 @@ export default function Guesser({
 
                             return <div className="result-item">
                                 <span className="result-item__icon"><img
-                                    src={`${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.png`}
+                                    src={`${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg`}
                                     alt={name}
                                 /></span>
                                 <span className="result-item__text">{name}</span>
