@@ -57,12 +57,13 @@
 
     &__flag {
       position: absolute;
-      top: 14px;
+      top: 50%;
       left: 14px;
+      transform: translateY(-50%);
 
       img {
         display: block;
-        max-width: 22px;
+        width: 22px;
       }
     }
 

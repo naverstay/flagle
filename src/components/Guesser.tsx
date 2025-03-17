@@ -99,9 +99,17 @@ export default function Guesser({
     }, [guessFlag]);
 
     const cssAnswer = useMemo(() => {
+        let flag = answerCountry.properties.FLAG
+
+        if (practiceMode) {
+            const answerCountry = JSON.parse(
+                localStorage.getItem("practice") as string
+            ) as Country;
+            flag = answerCountry.properties.FLAG;
+        }
+
         return `.flag-wrapper .grid .cell .front {
-            background-image: url(${process.env.PUBLIC_URL}/images/flags/${answerCountry.properties.FLAG.toLowerCase()}.svg);
-            background-repeat: no-repeat;
+            background-image: url(${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg);
         }
     `;
     }, [answerCountry]);
@@ -154,6 +162,9 @@ export default function Guesser({
                 localStorage.getItem("practice") as string
             ) as Country;
             const answerName = answerCountry.properties.NAME_EN;
+
+            console.log('practiceMode', practiceMode, answerCountry, guessCountry);
+
             if (guessCountry.properties.NAME_EN === answerName) {
                 setWin(true);
             }
