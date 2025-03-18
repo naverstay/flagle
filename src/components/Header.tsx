@@ -1,5 +1,4 @@
 import {getPath} from "../util/svg";
-import {setQueryStringParameter} from "../hooks/useLocalStorage";
 
 type Props = {
     practiceMode: boolean;
@@ -8,7 +7,7 @@ type Props = {
     setPracticeMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Header({setShowHome, setShowPopup, practiceMode}: Props) {
+export default function Header({setShowHome, setShowPopup, practiceMode, setPracticeMode}: Props) {
     // Set up practice mode
 
     console.log('###RENDER### header');
@@ -17,12 +16,18 @@ export default function Header({setShowHome, setShowPopup, practiceMode}: Props)
         <header className="header">
             <div className="container">
                 <div className="header-cell">
-                    <button className="btn btn-blue" onClick={() => setShowHome(true)} aria-label="Statistics">
-                        <span dangerouslySetInnerHTML={{__html: getPath("home")}}/>
-                    </button>
+                    <span className="logo">Flagle</span>
                 </div>
 
                 <div className="header-cell">
+                    {practiceMode ?
+                        <button className="btn btn-blue" onClick={() => setPracticeMode(false)} aria-label="daily">
+                            <span dangerouslySetInnerHTML={{__html: getPath("daily")}}/>
+                        </button> :
+                        <button className="btn btn-blue" onClick={() => setPracticeMode(true)} aria-label="unlimited">
+                            <span dangerouslySetInnerHTML={{__html: getPath("unlimited")}}/>
+                        </button>
+                    }
 
                     <button className="btn btn-blue" onClick={() => setShowPopup('stats')} aria-label="Statistics">
                         <span dangerouslySetInnerHTML={{__html: getPath("stats")}}/>

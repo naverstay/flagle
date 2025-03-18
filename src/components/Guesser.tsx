@@ -47,6 +47,7 @@ export default function Guesser({
                                     setError,
                                     updateFlag,
                                 }: Props) {
+    const [inputSearchString, setInputSearchString] = useState('' as string);
     const [guessName, setGuessName] = useState("");
     const [guessFlag, setGuessFlag] = useState("");
     const [autoCompleteIndex, setAutoCompleteIndex] = useState(1);
@@ -66,8 +67,10 @@ export default function Guesser({
         if (results?.length === 1) {
             setGuessFlag(results[0].flag);
             setGuessName(results[0].name);
+            setInputSearchString(results[0].name)
         } else {
             setGuessName(string);
+            setInputSearchString(string);
         }
 
         if (!string) {
@@ -77,6 +80,7 @@ export default function Guesser({
 
     const handleOnClear = () => {
         setGuessFlag('');
+        setGuessName('');
     }
 
     useEffect(() => {
@@ -101,6 +105,12 @@ export default function Guesser({
     const cssAnswer = useMemo(() => {
         let flag = answerCountry.properties.FLAG
 
+        if (!guesses.length) {
+            return `.flag-wrapper .grid .cell .front {
+            background-image: unset;
+        }`;
+        }
+
         if (practiceMode) {
             const answerCountry = JSON.parse(
                 localStorage.getItem("practice") as string
@@ -110,9 +120,8 @@ export default function Guesser({
 
         return `.flag-wrapper .grid .cell .front {
             background-image: url(${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg);
-        }
-    `;
-    }, [answerCountry]);
+        }`;
+    }, [answerCountry, guesses, practiceMode]);
 
     function findCountry(countryName: string, list: Country[]) {
         return list.find((country) => {
@@ -180,6 +189,10 @@ export default function Guesser({
 
         let guessCountry = runChecks();
 
+        setError("");
+        setGuessFlag("");
+        setInputSearchString('');
+
         if (practiceMode) {
             const answerCountry = JSON.parse(
                 localStorage.getItem("practice") as string
@@ -201,10 +214,6 @@ export default function Guesser({
             updateFlag();
             setGuessName("");
         }
-
-        setError("");
-        setGuessFlag("");
-        setAutoCompleteIndex(autoCompleteIndex + 1);
     }
 
     const autocompleteList = useMemo(() => {
@@ -270,10 +279,6 @@ export default function Guesser({
                             const {name, flag} = item;
 
                             return <div className="result-item">
-                                <span className="result-item__icon"><img
-                                    src={`${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg`}
-                                    alt={name}
-                                /></span>
                                 <span className="result-item__text">{name}</span>
                             </div>
                         }}
@@ -297,6 +302,7 @@ export default function Guesser({
                         // onHover={handleOnHover}
                         onSelect={handleOnSelect}
                         onClear={handleOnClear}
+                        inputSearchString={inputSearchString}
                         // onFocus={handleOnFocus}
                         // autoFocus
                         // formatResult={formatResult}

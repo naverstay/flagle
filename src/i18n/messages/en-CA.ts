@@ -3,8 +3,8 @@ import { Messages } from "../../lib/locale";
 export const English: Messages = {
   name: "English",
   helpTitle: "How to play",
-  help1: `The goal of the game is to guess the mystery country using the fewest attempts. To start, simply enter the name of any country in the search bar, and it will light up on the globe with a color. The warmer the color, the closer you are to the correct answer. As hints, you can see the distance and direction to the target country.`,
-  help2: `For example, if the Mystery Country is Brazil, the following countries will be displayed in these colors:`,
+  help1: `Flagle is a game where you try to guess a country based on its flag in as few attempts as possible. To begin, enter the name of any country. After each guess, tiles of the flag will gradually be revealed. Additionally, each guess provides hints showing the direction and distance to the hidden country.`,
+  help2: `For instance, if the hidden country is Croatia, the guessing sequence would look like this:`,
   help3: `A new Flagle available each day!`,
   France: "France",
   Nepal: "Nepal",

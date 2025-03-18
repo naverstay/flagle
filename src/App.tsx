@@ -85,65 +85,56 @@ function App() {
     }, []);
 
     return (
-        <div className={`page ${showHome ? ' __home' : ''}`}>
-            {showHome ?
-                <Home setPracticeMode={(mode) => {
-                    setPracticeMode(mode);
-                    setShowHome(false);
-                }}/>
-                : <>
-                    <Header practiceMode={practiceMode}
-                            setPracticeMode={setPracticeMode}
-                            setShowHome={setShowHome}
-                            setShowPopup={setShowPopup}/>
+        <div className={`page`}>
+            <Header practiceMode={practiceMode}
+                    setPracticeMode={setPracticeMode}
+                    setShowHome={setShowHome}
+                    setShowPopup={setShowPopup}/>
 
-                    <Fade show={showPopup === 'stats'} background={"popup-holder"} closeCallback={setShowPopup}>
-                        <div className="popup container">
-                            <Statistics storedStats={storedStats}
-                                        storeStats={storeStats}
-                                        storedGuesses={storedGuesses}
-                                        storeGuesses={storeGuesses}
-                                        practiceMode={practiceMode}
-                                        firstStats={firstStats}
-                                        closeCallback={setShowPopup}/>
-                        </div>
-                    </Fade>
-
-                    <Fade show={showPopup === 'help'} background={"popup-holder"} closeCallback={setShowPopup}>
-                        <div className="popup container">
-                            <Help closeCallback={setShowPopup}/>
-                        </div>
-                    </Fade>
-
-                    <Fade show={showPopup === 'settings'} background={"popup-holder"} closeCallback={setShowPopup}>
-                        <div className="popup container">
-                            <Settings
-                                setPracticeMode={setPracticeMode}
+            <Fade show={showPopup === 'stats'} background={"popup-holder"} closeCallback={setShowPopup}>
+                <div className="popup container">
+                    <Statistics storedStats={storedStats}
+                                storeStats={storeStats}
+                                storedGuesses={storedGuesses}
+                                storeGuesses={storeGuesses}
                                 practiceMode={practiceMode}
-                                setMiles={setMiles}
-                                miles={miles}
-                                setDirections={setDirections}
-                                directions={directions}
+                                firstStats={firstStats}
                                 closeCallback={setShowPopup}/>
-                        </div>
-                    </Fade>
+                </div>
+            </Fade>
 
-                    <Game miles={miles}
-                          directions={directions}
-                          practiceMode={practiceMode}
-                          showLoader={showLoader}
-                          storedStats={storedStats}
-                          storeStats={storeStats}
-                          firstStats={firstStats}
-                          storedGuesses={storedGuesses}
-                          storeGuesses={storeGuesses}
-                          practiceStoredGuesses={practiceStoredGuesses}
-                          practiceStoreGuesses={practiceStoreGuesses}
-                          setShowLoader={setShowLoader}
-                          setShowStats={setShowPopup}/>
-                </>
-            }
+            <Fade show={showPopup === 'help'} background={"popup-holder"} closeCallback={setShowPopup}>
+                <div className="popup container">
+                    <Help closeCallback={setShowPopup}/>
+                </div>
+            </Fade>
 
+            <Fade show={showPopup === 'settings'} background={"popup-holder"} closeCallback={setShowPopup}>
+                <div className="popup container">
+                    <Settings
+                        setPracticeMode={setPracticeMode}
+                        practiceMode={practiceMode}
+                        setMiles={setMiles}
+                        miles={miles}
+                        setDirections={setDirections}
+                        directions={directions}
+                        closeCallback={setShowPopup}/>
+                </div>
+            </Fade>
+
+            <Game miles={miles}
+                  directions={directions}
+                  practiceMode={practiceMode}
+                  showLoader={showLoader}
+                  storedStats={storedStats}
+                  storeStats={storeStats}
+                  firstStats={firstStats}
+                  storedGuesses={storedGuesses}
+                  storeGuesses={storeGuesses}
+                  practiceStoredGuesses={practiceStoredGuesses}
+                  practiceStoreGuesses={practiceStoreGuesses}
+                  setShowLoader={setShowLoader}
+                  setShowStats={setShowPopup}/>
         </div>
     );
 }

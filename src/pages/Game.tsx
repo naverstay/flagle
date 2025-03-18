@@ -58,13 +58,21 @@ export default function Game({
             setGuesses(loadCountries);
             setWin(false);
         } else {
+            setGuesses([]);
+            setWin(false);
+
             const practiceAnswer =
                 countryData[Math.floor(Math.random() * countryData.length)];
 
             localStorage.setItem("practice", JSON.stringify(practiceAnswer));
 
-            setGuesses([]);
-            setWin(false);
+            flipped.forEach((row, rowIndex) => {
+                row.forEach((cell, colIndex) => {
+                    if (!cell) {
+                        handleFlip(rowIndex, colIndex);
+                    }
+                });
+            });
         }
     }
 

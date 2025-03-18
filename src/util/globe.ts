@@ -38,8 +38,6 @@ export function turnGlobe(
     globeRef: React.MutableRefObject<GlobeMethods>,
     source?: string
 ) {
-    const controls: any = globeRef.current.controls();
-    controls.autoRotate = false;
     const currentAlt = globeRef.current.pointOfView().altitude;
     coords["altitude"] =
         source === "zoom" && "altitude" in coords

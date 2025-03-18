@@ -117,24 +117,6 @@
       ul li {
         cursor: pointer;
       }
-
-      > div:first-child {
-        position: relative;
-        padding-left: 30px;
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 14px;
-          width: 20px;
-          height: 20px;
-          margin-top: -10px;
-          background-position: 50% 50%;
-          background-repeat: no-repeat;
-          background-size: contain;
-        }
-      }
     }
   }
 }

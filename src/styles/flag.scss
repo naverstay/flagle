@@ -5,6 +5,15 @@
   align-items: center;
   justify-content: center;
   padding-top: 20px;
+
+  &.__win {
+    --flag-width: 319px;
+    --flag-height: 168px;
+
+    .grid {
+      gap: 0;
+    }
+  }
 }
 
 .grid {

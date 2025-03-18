@@ -37,7 +37,7 @@ export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Prop
     }, [guesses, globeRef, win]);
 
     return (
-        <div className="flag-wrapper">
+        <div className={"flag-wrapper" + (win ? ' __win' : '')}>
             <div className={'grid'}>
                 {flipped.map((row, rowIndex) =>
                     row.map((col, colIndex) => (

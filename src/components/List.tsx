@@ -119,9 +119,6 @@ export default function List({guesses, answerName, win, globeRef, practiceMode, 
                             + (directions ? ' __directions' : '')}>
                             <div className="suggestion-list__name"
                                  onClick={(e) => turnToCountry(e, idx)}>
-                                <div className="suggestion-list__flag">
-                                    <img src={`${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg`} alt={name}/>
-                                </div>
                                 <span>{name}</span>
                             </div>
                             <div className="suggestion-list__data">{isSortedByDistance ?
