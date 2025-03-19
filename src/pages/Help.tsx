@@ -55,15 +55,44 @@ export default function Help({closeCallback}: Props) {
                     }}
                     />
                 </p>
+                <div className="popup-results">
+                    <ul className="suggestion-list">
+                        <li className="suggestion-list__row __directions">
+                            <div className="suggestion-list__name"><span>Sweden</span></div>
+                            <div className="suggestion-list__data">~ 1,540<span>km</span></div>
+                            <div className="suggestion-list__direction">⬇️</div>
+                        </li>
+                        <li className="suggestion-list__row __directions">
+                            <div className="suggestion-list__name"><span>Hungary</span></div>
+                            <div className="suggestion-list__data">&lt;10<span>km</span></div>
+                            <div className="suggestion-list__direction">↙️</div>
+                        </li>
+                        <li className="suggestion-list__row __bingo __directions">
+                            <div className="suggestion-list__name"><span>Croatia</span></div>
+                            <div className="suggestion-list__data"><span>You Won!</span></div>
+                            <div className="suggestion-list__direction">🏆</div>
+                        </li>
+                    </ul>
+                </div>
                 <div className="popup-countries">
+
                     <div className="country-block">
-                        <img src="/images/flagle-1.png" alt=""/>
+                        <figure className="popup-country">
+                            <figcaption className="popup-country__text">First guess</figcaption>
+                            <img src="/images/flagle-1.png" alt=""/>
+                        </figure>
                     </div>
                     <div className="country-block">
-                        <img src="/images/flagle-2.png" alt=""/>
+                        <figure className="popup-country">
+                            <figcaption className="popup-country__text">Next guesses</figcaption>
+                            <img src="/images/flagle-2.png" alt=""/>
+                        </figure>
                     </div>
                     <div className="country-block">
-                        <img src="/images/flagle-3.png" alt=""/>
+                        <figure className="popup-country">
+                            <figcaption className="popup-country__text">Guessed right!</figcaption>
+                            <img src="/images/flagle-3.png" alt=""/>
+                        </figure>
                     </div>
                 </div>
                 <p className="text-center fw-b">

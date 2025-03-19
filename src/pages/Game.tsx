@@ -50,6 +50,7 @@ export default function Game({
                                  storeStats
                              }: Props) {
     const [error, setError] = useState("");
+    const [animate, setAnimate] = useState(false);
 
     function enterPracticeMode(force?: boolean) {
         if (!force && practiceStoredGuesses?.day === '' && practiceStoredGuesses?.countries?.length) {
@@ -139,6 +140,7 @@ export default function Game({
 
     const flipRandomCell = () => {
         const unflippedCells: [number, number][] = [];
+        setAnimate(true);
 
         flipped.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
@@ -159,6 +161,9 @@ export default function Game({
     useEffect(() => {
         if (!practiceMode) {
             setGuesses(storedCountries);
+            setFlipped(storedGuesses.flipped.flat().some(s => !s) ? storedGuesses?.flipped : Array.from({length: ROWS}, () => Array(COLS).fill(true)));
+        } else {
+            setFlipped(practiceStoredGuesses.flipped.flat().some(s => !s) ? practiceStoredGuesses?.flipped : Array.from({length: ROWS}, () => Array(COLS).fill(true)))
         }
     }, [practiceMode, storedCountries]);
 
@@ -193,6 +198,10 @@ export default function Game({
             });
         }
     }, [guesses, storeGuesses, practiceMode, flipped]);
+
+    useEffect(() => {
+        setAnimate(false);
+    }, [practiceMode]);
 
     // When the player wins!
     useEffect(() => {
@@ -250,6 +259,19 @@ export default function Game({
 
     }, [win, guesses, setShowStats, storeStats, storedStats, practiceMode, flipped, practiceStoreGuesses]);
 
+    const flagImage = useMemo(() => {
+        let flag = answerCountry.properties.FLAG
+
+        if (practiceMode) {
+            const answerCountry = JSON.parse(
+                localStorage.getItem("practice") as string
+            ) as Country;
+            flag = answerCountry?.properties?.FLAG ?? '';
+        }
+
+        return `${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg`;
+    }, [answerCountry, guesses, practiceMode]);
+
     // Practice mode
 
     // Fallback while loading
@@ -268,6 +290,11 @@ export default function Game({
                     __html: `.grid {
             grid-template-columns: repeat(${COLS}, 1fr);
             grid-template-rows: repeat(${ROWS}, 1fr);
+        }
+        
+        .flag-wrapper .grid .cell .front {
+            background-size: ${COLS * 100}% ${ROWS * 100}%;
+            background-image: ${guesses.length ? `url(${flagImage})` : 'unset'};
         }`
                 }}/>
                 {win && !practiceMode ? <Share storedGuesses={storedGuesses}
@@ -278,15 +305,18 @@ export default function Game({
                                                practiceMode={practiceMode}/> : null}
 
                 {!showLoader && (
-                    <div className="globe-holder">
-                        <Flag
-                            guesses={guesses}
-                            globeRef={globeRef}
-                            setFlipped={setFlipped}
-                            flipped={flipped}
-                            win={win}
-                            practiceMode={practiceMode}
-                        />
+                    <div className={'globe-holder' + (animate ? ' animate' : '')}>
+                        <div className={"flag-holder" + (win ? ' __win' : '')}>
+                            <img className="flag" src={flagImage} alt=""/>
+                            <Flag
+                                guesses={guesses}
+                                globeRef={globeRef}
+                                setFlipped={setFlipped}
+                                flipped={flipped}
+                                win={win}
+                                practiceMode={practiceMode}
+                            />
+                        </div>
 
                         <div className="globe-message">
                             <Message

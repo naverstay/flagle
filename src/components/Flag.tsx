@@ -37,7 +37,7 @@ export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Prop
     }, [guesses, globeRef, win]);
 
     return (
-        <div className={"flag-wrapper" + (win ? ' __win' : '')}>
+        <div className={"flag-wrapper"}>
             <div className={'grid'}>
                 {flipped.map((row, rowIndex) =>
                     row.map((col, colIndex) => (
@@ -46,17 +46,13 @@ export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Prop
                             className={`cell ${
                                 flipped[rowIndex][colIndex] ? 'flipped' : ""
                             }`}
-                            style={{
-                                width: `calc(var(--flag-width) / ${row.length})`,
-                                height: `calc(var(--flag-height) / ${flipped.length})`,
-                            }}
                             onClick={() => {
                                 // handleFlip(rowIndex, colIndex)
                             }}
                         >
                             <div style={{
-                                backgroundPositionX: `calc(${-colIndex} * var(--flag-width) / ${row.length})`,
-                                backgroundPositionY: `calc(${-rowIndex} * var(--flag-height) / ${flipped.length})`,
+                                backgroundPositionX: `${(colIndex * 100 / (row.length - 1))}%`,
+                                backgroundPositionY: `${rowIndex * 100 / (flipped.length - 1)}%`,
                             }} className={'front'}/>
                             <div className={'back'}/>
                         </div>

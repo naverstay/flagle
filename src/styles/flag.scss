@@ -1,32 +1,53 @@
-.flag-wrapper {
-  --flag-width: 309px;
+.flag-holder {
+  --flag-gap: 4px;
   --flag-height: 163px;
+  position: relative;
+  height: var(--flag-height);
+  margin: 20px auto 0;
+  display: inline-flex;
+
+  &.__win {
+    --flag-gap: 0;
+  }
+}
+
+.flag {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.flag-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 20px;
-
-  &.__win {
-    --flag-width: 319px;
-    --flag-height: 168px;
-
-    .grid {
-      gap: 0;
-    }
-  }
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .grid {
   display: grid;
-  gap: 5px;
+  gap: var(--flag-gap);
+  height: 100%;
+  width: 100%;
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
   position: relative;
   perspective: 1000px;
   cursor: pointer;
+}
+
+.animate {
+  .cell .front,
+  .cell .back {
+    transition: transform 0.6s;
+  }
 }
 
 .cell .front,
@@ -37,12 +58,10 @@
   top: 0;
   left: 0;
   backface-visibility: hidden;
-  transition: transform 0.6s;
 }
 
 .cell .front {
   background-repeat: no-repeat;
-  background-size: var(--flag-width) var(--flag-height);
 }
 
 .cell .back {

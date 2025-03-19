@@ -102,27 +102,6 @@ export default function Guesser({
     `;
     }, [guessFlag]);
 
-    const cssAnswer = useMemo(() => {
-        let flag = answerCountry.properties.FLAG
-
-        if (!guesses.length) {
-            return `.flag-wrapper .grid .cell .front {
-            background-image: unset;
-        }`;
-        }
-
-        if (practiceMode) {
-            const answerCountry = JSON.parse(
-                localStorage.getItem("practice") as string
-            ) as Country;
-            flag = answerCountry.properties.FLAG;
-        }
-
-        return `.flag-wrapper .grid .cell .front {
-            background-image: url(${process.env.PUBLIC_URL}/images/flags/${flag.toLowerCase()}.svg);
-        }`;
-    }, [answerCountry, guesses, practiceMode]);
-
     function findCountry(countryName: string, list: Country[]) {
         return list.find((country) => {
             const {NAME, NAME_LONG, ABBREV, ADMIN, BRK_NAME, NAME_SORT} =
@@ -261,7 +240,6 @@ export default function Guesser({
     return (
         <div ref={autocompleteRef} className="autocomplete-wrapper">
             <style>{css}</style>
-            <style>{cssAnswer}</style>
             {process.env.NODE_ENV === 'development' ? <p style={{display: 'none'}}>
                 {answerName},{answerCountry.properties.FLAG.toLowerCase()}
             </p> : null}
