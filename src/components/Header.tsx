@@ -16,7 +16,7 @@ export default function Header({setShowHome, setShowPopup, practiceMode, setPrac
         <header className="header">
             <div className="container">
                 <div className="header-cell">
-                    <span className="logo">Flagle</span>
+                    <span className="logo">FLAGLE</span>
                 </div>
 
                 <div className="header-cell">

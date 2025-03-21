@@ -53,6 +53,7 @@
   &-body {
     border-radius: 5px;
     padding: 18px 22px;
+    font-size:15px;
     background: var(--btn-gray-bg-light);
 
     > *:last-child {
@@ -73,7 +74,7 @@
 
   &-countries {
     min-height: 150px;
-    gap: 10px;
+    gap: 30px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 

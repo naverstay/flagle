@@ -90,7 +90,7 @@ export default function Help({closeCallback}: Props) {
                     </div>
                     <div className="country-block">
                         <figure className="popup-country">
-                            <figcaption className="popup-country__text">Guessed right!</figcaption>
+                            <figcaption className="popup-country__text">You won!</figcaption>
                             <img src="/images/flagle-3.png" alt=""/>
                         </figure>
                     </div>

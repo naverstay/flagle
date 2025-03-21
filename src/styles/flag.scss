@@ -1,9 +1,10 @@
 .flag-holder {
   --flag-gap: 4px;
-  --flag-height: 163px;
+  --flag-height: 264px;
   position: relative;
   height: var(--flag-height);
   margin: 20px auto 0;
+  box-shadow: 0 0 40px 0 rgba(0,0,0,.1);
   display: inline-flex;
 
   &.__win {
@@ -65,13 +66,13 @@
 }
 
 .cell .back {
-  background-color: #f4f4f4;
+  background-color: var(--flag-color);
   color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
   transform: rotateY(180deg);
-  border: 1px solid #ccc;
+  border: 1px solid var(--flag-color);
 }
 
 .cell.flipped .front {
