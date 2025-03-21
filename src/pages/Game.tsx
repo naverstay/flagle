@@ -50,7 +50,6 @@ export default function Game({
                                  storeStats
                              }: Props) {
     const [error, setError] = useState("");
-    const [animate, setAnimate] = useState(false);
 
     function enterPracticeMode(force?: boolean) {
         if (!force && practiceStoredGuesses?.day === '' && practiceStoredGuesses?.countries?.length) {
@@ -125,6 +124,7 @@ export default function Game({
     const [guesses, setGuesses] = useState<Country[]>(storedCountries);
     const [win, setWin] = useState(alreadyWon);
     const globeRef = useRef<GlobeMethods>(null!);
+    const [animate, setAnimate] = useState(!!storedCountries.length);
 
     const [flipped, setFlipped] = useState<boolean[][]>(
         (practiceMode ? practiceStoredGuesses : storedGuesses)?.flipped.flat().some(s => !s) ? (practiceMode ? practiceStoredGuesses : storedGuesses)?.flipped : Array.from({length: ROWS}, () => Array(COLS).fill(true))
