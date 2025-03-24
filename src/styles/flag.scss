@@ -2,9 +2,9 @@
   --flag-gap: 4px;
   --flag-height: 264px;
   position: relative;
-  height: var(--flag-height);
+  width: 80%;
   margin: 20px auto 0;
-  box-shadow: 0 0 40px 0 rgba(0,0,0,.1);
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, .1);
   display: inline-flex;
 
   &.__win {
@@ -48,6 +48,7 @@
   .cell .front,
   .cell .back {
     transition: transform 0.6s;
+    backface-visibility: hidden;
   }
 }
 
@@ -58,11 +59,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  backface-visibility: hidden;
 }
 
 .cell .front {
   background-repeat: no-repeat;
+  backface-visibility: hidden;
 }
 
 .cell .back {

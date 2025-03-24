@@ -151,8 +151,6 @@ export default function Guesser({
             ) as Country;
             const answerName = answerCountry.properties.NAME_EN;
 
-            console.log('practiceMode', practiceMode, answerCountry, guessCountry);
-
             if (guessCountry.properties.NAME_EN === answerName) {
                 setWin(true);
             }

@@ -197,6 +197,8 @@ export default function Game({
                 countries: guessNames,
             });
         }
+
+        setAnimate(!!guesses.length)
     }, [guesses, storeGuesses, practiceMode, flipped]);
 
     useEffect(() => {
@@ -252,7 +254,7 @@ export default function Game({
 
             practiceStoreGuesses({
                 day: win ? 'win' : '',
-                flipped: flipped,
+                flipped: win ? Array.from({length: ROWS}, () => Array(COLS).fill(true)) : flipped,
                 countries: guessNames,
             });
         }
@@ -309,8 +311,8 @@ export default function Game({
                         <div className={"flag-holder" + (win ? ' __win' : '')}>
                             <img className="flag" src={flagImage} alt=""/>
                             <Flag
+                                key={flagImage + practiceMode}
                                 guesses={guesses}
-                                globeRef={globeRef}
                                 setFlipped={setFlipped}
                                 flipped={flipped}
                                 win={win}

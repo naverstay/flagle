@@ -1,5 +1,4 @@
 import {useContext, useEffect, useState} from "react";
-import {GlobeMethods} from "react-globe.gl";
 import {Country} from "../lib/country";
 import {ThemeContext} from "../context/ThemeContext";
 
@@ -9,12 +8,11 @@ type Props = {
     guesses: Country[];
     setFlipped: (prev: React.SetStateAction<boolean[][]>) => any;
     flipped: boolean[][];
-    globeRef: React.MutableRefObject<GlobeMethods>;
     practiceMode: boolean;
     win: boolean;
 };
 
-export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Props) {
+export default function Flag({guesses, win, flipped, setFlipped}: Props) {
     // State
     const [places, setPlaces] = useState(guesses);
 
@@ -34,7 +32,7 @@ export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Prop
         setPlaces(guesses.concat(territories));
 
         // Turn globe to new spot
-    }, [guesses, globeRef, win]);
+    }, [guesses, win]);
 
     return (
         <div className={"flag-wrapper"}>
@@ -46,9 +44,6 @@ export default function Flag({guesses, globeRef, win, flipped, setFlipped}: Prop
                             className={`cell ${
                                 flipped[rowIndex][colIndex] ? 'flipped' : ""
                             }`}
-                            onClick={() => {
-                                // handleFlip(rowIndex, colIndex)
-                            }}
                         >
                             <div style={{
                                 backgroundPositionX: `${(colIndex * 100 / (row.length - 1))}%`,
