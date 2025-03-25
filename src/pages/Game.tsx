@@ -307,7 +307,7 @@ export default function Game({
                                                practiceMode={practiceMode}/> : null}
 
                 {!showLoader && (
-                    <div className={'globe-holder' + (animate ? ' animate' : '')}>
+                    <div className={'globe-holder' + ((animate || win) ? ' animate' : '')}>
                         <div className={"flag-holder" + (win ? ' __win' : '')}>
                             <img className="flag" src={flagImage} alt=""/>
                             <Flag
