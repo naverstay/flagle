@@ -174,6 +174,10 @@ export default function Game({
         }
     }, [alreadyWon, practiceMode, guesses]);
 
+    useEffect(() => {
+        setAnimate(false);
+    }, [practiceMode]);
+
     // Whenever there's a new guess
     useEffect(() => {
         if (practiceMode) {
@@ -197,13 +201,21 @@ export default function Game({
                 countries: guessNames,
             });
         }
-
-        setAnimate(!!guesses.length)
     }, [guesses, storeGuesses, practiceMode, flipped]);
 
     useEffect(() => {
-        setAnimate(false);
-    }, [practiceMode]);
+        const reset = setTimeout(() => {
+            setAnimate(guesses.length > 0);
+        }, 600);
+
+        return () => {
+            clearTimeout(reset)
+        }
+    }, [guesses]);
+
+    useEffect(() => {
+        setFlipped(today === storedGuesses.day ? flipped : Array.from({length: ROWS}, () => Array(COLS).fill(true)))
+    }, [storedGuesses]);
 
     // When the player wins!
     useEffect(() => {
@@ -258,7 +270,6 @@ export default function Game({
                 countries: guessNames,
             });
         }
-
     }, [win, guesses, setShowStats, storeStats, storedStats, practiceMode, flipped, practiceStoreGuesses]);
 
     const flagImage = useMemo(() => {
