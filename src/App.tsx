@@ -44,16 +44,16 @@ function App() {
         emojiGuesses: "",
     };
 
-    const [storedStats, storeStats] = useLocalStorage<Stats>("statistics", firstStats);
+    const [storedStats, storeStats] = useLocalStorage<Stats>("flagleStatistics", firstStats);
 
     // Get data from local storage
-    const [storedGuesses, storeGuesses] = useLocalStorage<Guesses>("guesses", {
+    const [storedGuesses, storeGuesses] = useLocalStorage<Guesses>("flagleGuesses", {
         day: today,
         flipped: [],
         countries: [],
     });
 
-    const [practiceStoredGuesses, practiceStoreGuesses] = useLocalStorage<Guesses>("practiceGuesses", {
+    const [practiceStoredGuesses, practiceStoreGuesses] = useLocalStorage<Guesses>("flaglePracticeGuesses", {
         day: '',
         flipped: [],
         countries: [],
